@@ -124,6 +124,13 @@ __get_script_dir()
     script_dir="$(__script_dir)"
 }
 
+__your_command_completion() {
+    COMPREPLY=($(COMP_WORDS="${COMP_WORDS[*]}" \
+                 COMP_CWORD=$COMP_CWORD \
+                 _YOUR_COMMAND_COMPLETE=complete_zsh xf))
+    return 0
+}
+
 __enter_virtualenv()
 {
     python ${XF_ROOT}/tools/export_script/check_virtualenv.py
@@ -133,6 +140,8 @@ __enter_virtualenv()
     fi
     python3 -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
     pip install xf_build==0.3.2 -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+    complete -F __your_command_completion xf
 }
 
 __print_value()
