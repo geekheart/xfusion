@@ -125,9 +125,11 @@ __get_script_dir()
 }
 
 __your_command_completion() {
+    local cur="${COMP_WORDS[COMP_CWORD]}"
     COMPREPLY=($(COMP_WORDS="${COMP_WORDS[*]}" \
                  COMP_CWORD=$COMP_CWORD \
                  _YOUR_COMMAND_COMPLETE=complete_zsh xf))
+    COMPREPLY=($(compgen -W "${COMPREPLY[*]}" -- "$cur"))
     return 0
 }
 
